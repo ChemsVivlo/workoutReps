@@ -46,10 +46,9 @@ struct MuscleGroupsView: View {
                     let indexColor = (index+1) % colors.count
                     
                     if isEditing {
-                      
                         isEditingCell(muscleGroupName: muscleGroup.muscleGroupName, index: index, isEditing: $isEditing, indexTapped: $indexTapped, color: colors[indexColor], isLongPressing: $isLongPressing)
-                        
                     } else {
+                        //Missing to create function
                         Button {
                         } label: {
                             NavigationLink(destination: ExercisesView(muscleGroup: muscleGroup)) {
@@ -106,7 +105,6 @@ extension MuscleGroupsView {
                 color: Color,
                 isLongPressing: Binding<Bool> //Binding
     ) -> some View {
-        
         Button {
         } label: {
             NavigationLink(destination: AddMuscleGroupView(textFieldText: muscleGroupName, isEditing: $isEditing, muscleGroupIndex: index, indexTapped: $indexTapped)) {
