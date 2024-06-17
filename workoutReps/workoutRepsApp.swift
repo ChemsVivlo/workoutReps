@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct workoutRepsApp: App {
+    
+    @StateObject var userModel = UserModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                MuscleGroupsView()
+            }.environmentObject(userModel)
         }
     }
 }

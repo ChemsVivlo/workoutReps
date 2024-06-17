@@ -19,14 +19,15 @@ struct ExercisesView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: adaptiveColumns) {
-                Text("1")
+                Text("List of exercises")
+                    .font(.headline)
+                    .foregroundStyle(Color.accentColor)
             }
+            .padding(.vertical, 20)
         }
         .navigationTitle(muscleGroup.muscleGroupName)
         .navigationBarItems(trailing: NavigationLink("Add", destination: Text("Exercise"))
-            .foregroundColor(.black)
             .font(.system(size: 20))
-            .bold()
         )
     }
 }

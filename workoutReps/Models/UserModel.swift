@@ -22,4 +22,9 @@ class UserModel: Observable, ObservableObject {
         self.muscleGroups.remove(at: index)
     }
     
+    func updateMuscleGroupName(at index: Int, newName: String) {
+        self .muscleGroups[index].updateMuscleGroupName(newName)
+    }
+    
+    
 }

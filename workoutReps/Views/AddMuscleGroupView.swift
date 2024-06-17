@@ -14,12 +14,15 @@ struct AddMuscleGroupView: View {
     
     @State var textFieldText: String = ""
     @State var showAlert: Bool = false
-    @State var alertTitle: String = ""
+    @State var alertTitle: String = ""  
+    @Binding var isEditing: Bool
+    var muscleGroupIndex: Int?
+    @Binding var indexTapped: Int?
     
     var body: some View {
         ScrollView {
             VStack {
-                TextField("Type something here...", text: $textFieldText)
+                TextField("Muscle group...", text: $textFieldText)
                     .padding(.horizontal)
                     .frame(height: 55)
                     .background(Color(.systemGray6))
@@ -35,15 +38,37 @@ struct AddMuscleGroupView: View {
                 })
             }
         }
-        .navigationTitle("Add a Muscle Group 💪🏻")
+        .navigationTitle(isEditing ? "Edit" : "Add a Muscle Group 💪🏻")
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton)
         .alert(isPresented: $showAlert, content: getAlert)
         .padding(14)
     }
     
+    private var backButton: some View {
+        Button(action: {
+            isEditing = false
+            indexTapped = nil
+            presentationMode.wrappedValue.dismiss()
+        }) {
+            Text("Back")
+                .foregroundColor(.accentColor)
+                .font(.system(size: 20))
+        }
+    }
+    
     func saveButtonPressed() {
         if textIsAppropriate() {
-            let newMuscleGroup = MuscleGroupModel(muscleGroupName: textFieldText, exercises: [])
-            userModel.addMuscleGroup(newMuscleGroup)
+            if isEditing {
+                if let index = muscleGroupIndex {
+                    userModel.updateMuscleGroupName(at: index, newName: textFieldText)
+                    isEditing = false
+                    indexTapped = nil
+                }
+            } else {
+                let newMuscleGroup = MuscleGroupModel(muscleGroupName: textFieldText, exercises: [])
+                userModel.addMuscleGroup(newMuscleGroup)
+            }
             presentationMode.wrappedValue.dismiss()
         }
     }
@@ -65,6 +90,6 @@ struct AddMuscleGroupView: View {
 
 #Preview {
     NavigationView {
-        AddMuscleGroupView()
-    }.environment(UserModel(userName: nil, age: nil, profileImageURLString: nil))
+        AddMuscleGroupView(isEditing: .constant(true), indexTapped: .constant(0))
+    }.environment(UserModel())
 }
